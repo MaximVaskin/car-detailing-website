@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Detailing - Детейлинг студия</title>
+    <style>
+        /* Основные стили */
+        body {
+    margin: 0;
+    padding: 5;
+    font-family: 'Arial', sans-serif;
+    color: #ffff;
+    overflow-x: hidden;
+    background-color: rgba(26, 26, 26, 0.5); /* Базовый темный фон */
+    background-image: repeating-linear-gradient(
+        58deg,
+        rgba(255, 255, 255, 0),
+        rgba(26, 26, 26, 0) 10px,
+        transparent 10px,
+        transparent 20px
+    );
+    background-size: 600px 600px;
+}
+
+        /* Неоновая палитра */
+        :root {
+            --neon-yellow: #fff200;
+            --neon-yellow-glow: rgba(255, 242, 0, 0.7);
+            --neon-pink: #ff2e63;
+            --neon-blue: #08d9d6;
+            --neon-green: #0ec17e;
+            --neon-purple: #a24cf0;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 99);
+            z-index: -30
+		;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--neon-yellow);
+            box-shadow: 0 0 10px var(--neon-yellow-glow);
+            position: relative;
+        }
+
+        .header-container::before,
+        .header-container::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--neon-yellow);
+            box-shadow: 0 0 5px var(--neon-yellow-glow);
+        }
+
+        .header-container::before {
+            top: 0;
+        }
+
+        .header-container::after {
+            bottom: 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 5px var(--neon-yellow-glow), 0 0 15px var(--neon-yellow-glow);
+            animation: neonGlow 1.5s ease-in-out infinite alternate;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            position: relative;
+            padding: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--neon-yellow);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--neon-yellow);
+            box-shadow: 0 0 5px var(--neon-yellow-glow);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 160px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(255, 242, 0, 0.2);
+        }
+
+        .page {
+            display: none;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes neonGlow {
+            from {
+                text-shadow: 0 0 5px var(--neon-yellow-glow), 0 0 10px var(--neon-yellow-glow);
+            }
+            to {
+                text-shadow: 0 0 10px var(--neon-yellow-glow), 0 0 20px var(--neon-yellow-glow), 0 0 30px var(--neon-yellow-glow);
+            }
+        }
+
+        /* Галерея */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 2px solid var(--neon-yellow);
+            box-shadow: 0 0 10px var(--neon-yellow-glow);
+            transition: all 0.3s ease;
+            height: 250px;
+            cursor: pointer;
+            background: linear-gradient(45deg, var(--neon-yellow), var(--neon-green));
+            background-size: 400% 400%;
+            animation: neonBg 5s ease infinite;
+        }
+
+        @keyframes neonBg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            color: var(--neon-green);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-caption h3 {
+            color: var(--neon-green);
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        /* Модальное окно */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease-in-out;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal img {
+            max-width: 90vw;
+            max-height: 80vh;
+            border: 3px solid var(--neon-purple);
+            box-shadow: 0 0 30px var(--neon-purple);
+            animation: zoomIn 0.4s ease-in-out;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 36px;
+            color: var(--neon-yellow);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--neon-yellow-light);
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            color: var(--neon-pink);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .modal-nav:hover {
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .modal-prev {
+            left: 20px;
+        }
+
+        .modal-next {
+            right: 20px;
+        }
+
+        /* Стили для страницы услуг */
+        .services-container {
+            margin-top: 30px;
+        }
+
+        .service-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid var(--neon-yellow);
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: var(--neon-yellow);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-yellow-glow);
+        }
+
+        .services-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .services-table th {
+            background: rgba(255, 242, 0, 0.2);
+            color: var(--neon-yellow);
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid var(--neon-yellow);
+        }
+
+        .services-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 242, 0, 0.1);
+        }
+
+        .services-table tr:hover {
+            background: rgba(255, 242, 0, 0.05);
+        }
+
+        .service-category {
+            font-size: 18px;
+            margin-top: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--neon-yellow);
+            color: var(--neon-yellow);
+            display: none;
+        }
+
+        .service-category.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* Стили для страницы контактов */
+        .contact-info {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .contact-card {
+            background: rgba(20, 20, 20, 0.8);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--neon-yellow);
+            box-shadow: 0 0 15px var(--neon-yellow-glow);
+            transition: all 0.3s ease;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 25px var(--neon-yellow-glow);
+            animation: pulse 1s ease infinite;
+        }
+
+        .contact-card i {
+            font-size: 40px;
+            color: var(--neon-yellow);
+            margin-bottom: 20px;
+            display: block;
+            text-shadow: 0 0 10px var(--neon-yellow-glow);
+        }
+
+        .contact-card h3 {
+            color: var(--neon-yellow);
+            margin-top: 0;
+            font-size: 24px;
+        }
+
+        .contact-card p, .contact-card a {
+            color: #fff;
+            font-size: 18px;
+            line-height: 1.6;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .contact-card a:hover {
+            color: var(--neon-yellow);
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: #fff;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--neon-yellow);
+            transform: translateY(-5px);
+            text-shadow: 0 0 10px var(--neon-yellow-glow);
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid var(--neon-yellow);
+            box-shadow: 0 0 10px var(--neon-yellow-glow);
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-content p {
+            margin: 10px 0;
+            color: #aaa;
+        }
+
+        .footer-content p:first-child {
+            color: var(--neon-yellow);
+            font-size: 18px;
+            text-shadow: 0 0 5px var(--neon-yellow-glow);
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin-left: 10px;
+                margin-right: 10px;
+                margin-bottom: 10px;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+
+            .service-categories {
+                justify-content: center;
+            }
+
+            .services-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css ">
+</head>
+<body>
+
+<!-- Шапка сайта -->
+<header>
+    <div class="header-container">
+        <div class="logo">NEON<span style="color: #fff;">DETAILING</span></div>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showPage('gallery')">Галерея</a></li>
+                <li><a href="#" onclick="showPage('services')">Услуги</a></li>
+                <li><a href="#" onclick="showPage('contacts')">Контакты</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- Основной контент -->
+<main>
+    <div class="container">
+        <!-- Страница галереи -->
+        <div id="gallery" class="page active">
+            <h1 style="color: var(--neon-yellow); text-shadow: 0 0 10px var(--neon-yellow-glow);">Наша <span style="animation: neonGlow 1.5s ease-in-out infinite alternate;">Галерея</span></h1>
+            <p>Примеры наших работ по детейлингу автомобилей</p>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="images/photo1.jpg" alt="Детейлинг 1">
+                    <div class="gallery-caption">
+                        <h3>Полировка кузова</h3>
+                        <p>Многоступенчатая полировка до зеркального блеска</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/photo2.jpg" alt="Детейлинг 2">
+                    <div class="gallery-caption">
+                        <h3>Керамическое покрытие</h3>
+                        <p>Защита лакокрасочного покрытия на 2 года</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/photo3.jpg" alt="Детейлинг 3">
+                    <div class="gallery-caption">
+                        <h3>Химчистка салона</h3>
+                        <p>Глубокая очистка всех поверхностей</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/photo4.jpg" alt="Детейлинг 4">
+                    <div class="gallery-caption">
+                        <h3>Мойка двигателя</h3>
+                        <p>Безопасная очистка подкапотного пространства</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/photo5.jpg" alt="Детейлинг 5">
+                    <div class="gallery-caption">
+                        <h3>Полировка фар</h3>
+                        <p>Восстановление прозрачности фар</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/photo6.jpg" alt="Детейлинг 6">
+                    <div class="gallery-caption">
+                        <h3>Защитная пленка</h3>
+                        <p>Установка PPF пленки на уязвимые зоны</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/photo7.jpg" alt="Детейлинг 7">
+                    <div class="gallery-caption">
+                        <h3>Тонировка</h3>
+                        <p>Профессиональная тонировка стекол</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Страница услуг -->
+        <div id="services" class="page">
+            <h1 style="color: var(--neon-yellow); text-shadow: 0 0 10px var(--neon-yellow-glow);">Наши <span style="animation: neonGlow 1.5s ease-in-out infinite alternate;">Услуги</span></h1>
+            <p>Полный спектр услуг по детейлингу автомобилей</p>
+            <div class="services-container">
+                <div class="service-categories">
+                    <button class="category-btn active" onclick="filterServices('all')">Все услуги</button>
+                    <button class="category-btn" onclick="filterServices('exterior')">🚗 Экстерьер</button>
+                    <button class="category-btn" onclick="filterServices('interior')">🛋️ Интерьер</button>
+                    <button class="category-btn" onclick="filterServices('additional')">🧊 Дополнительно</button>
+                </div>
+                <div id="exterior-category" class="service-category active">
+                    <h3>🚗 Услуги по экстерьеру</h3>
+                    <table class="services-table">
+                        <thead>
+                            <tr>
+                                <th>Услуга</th>
+                                <th>Цена (руб)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Обычная мойка автомобиля</td>
+                                <td>900 – 1 300</td>
+                            </tr>
+                            <tr>
+                                <td>Глубокая мойка (с предварительной обработкой)</td>
+                                <td>1 800 – 2 700</td>
+                            </tr>
+                            <tr>
+                                <td>Полировка фар</td>
+                                <td>1 300 – 2 500</td>
+                            </tr>
+                            <tr>
+                                <td>Многоступенчатая полировка кузова</td>
+                                <td>3 500 – 7 000</td>
+                            </tr>
+                            <tr>
+                                <td>Нанесение воска</td>
+                                <td>1 800 – 3 500</td>
+                            </tr>
+                            <tr>
+                                <td>Нанесение гидрофоба</td>
+                                <td>2 200 – 4 000</td>
+                            </tr>
+                            <tr>
+                                <td>Керамическое покрытие (один слой)</td>
+                                <td>9 000 – 18 000</td>
+                            </tr>
+                            <tr>
+                                <td>Керамическое покрытие (многослойное)</td>
+                                <td>18 000 – 27 000</td>
+                            </tr>
+                            <tr>
+                                <td>Удаление битума и дегтя</td>
+                                <td>900 – 1 800</td>
+                            </tr>
+                            <tr>
+                                <td>Удаление оксидного слоя</td>
+                                <td>2 700 – 4 500</td>
+                            </tr>
+                            <tr>
+                                <td>Мойка двигателя</td>
+                                <td>1 800 – 3 500</td>
+                            </tr>
+                            <tr>
+                                <td>Уход за дисками (чистка + защита)</td>
+                                <td>1 300 – 2 500</td>
+                            </tr>
+                            <tr>
+                                <td>Уход за стеклами (полировка + гидрофоб)</td>
+                                <td>900 – 1 800</td>
+                            </tr>
+                            <tr>
+                                <td>Тонировка фар / задних фонарей</td>
+                                <td>1 800 – 4 500</td>
+                            </tr>
+                            <tr>
+                                <td>Уход за хромированными элементами</td>
+                                <td>900 – 1 800</td>
+                            </tr>
+                            <tr>
+                                <td>Защитная плёнка PPF на капот / зеркала</td>
+                                <td>от 2 700 руб</td>
+                            </tr>
+                            <tr>
+                                <td>Антикоррозийная обработка порогов / арок</td>
+                                <td>1 800 – 4 500</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="interior-category" class="service-category">
+                    <h3>🛋️ Услуги по интерьеру</h3>
+                    <table class="services-table">
+                        <thead>
+                            <tr>
+                                <th>Услуга</th>
+                                <th>Цена (руб)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Сухая уборка (пылесос, протирка поверхностей)</td>
+                                <td>900 – 1 300</td>
+                            </tr>
+                            <tr>
+                                <td>Химчистка салона (ткань/кожа)</td>
+                                <td>2 700 – 5 500</td>
+                            </tr>
+                            <tr>
+                                <td>Химчистка потолка (замша/алькантара)</td>
+                                <td>1 300 – 2 500</td>
+                            </tr>
+                            <tr>
+                                <td>Чистка пластиковых деталей</td>
+                                <td>900 – 1 800</td>
+                            </tr>
+                            <tr>
+                                <td>Кондиционирование кожи</td>
+                                <td>1 800 – 3 500</td>
+                            </tr>
+                            <tr>
+                                <td>Уход за светлыми сиденьями (отбеливание)</td>
+                                <td>2 200 – 4 500</td>
+                            </tr>
+                            <tr>
+                                <td>Уход за деревянными вставками</td>
+                                <td>900 – 1 800</td>
+                            </tr>
+                            <tr>
+                                <td>Чистка кондиционера (испаритель + воздуховоды)</td>
+                                <td>1 800 – 2 700</td>
+                            </tr>
+                            <tr>
+                                <td>Восстановление цвета черного пластика</td>
+                                <td>900 – 2 500</td>
+                            </tr>
+                            <tr>
+                                <td>Уход за рулем и рычагом КПП</td>
+                                <td>900 – 1 800</td>
+                            </tr>
+                            <tr>
+                                <td>Удаление запаха табака / еды / животных</td>
+                                <td>1 800 – 3 500</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="additional-category" class="service-category">
+                    <h3>🧊 Дополнительные услуги</h3>
+                    <table class="services-table">
+                        <thead>
+                            <tr>
+                                <th>Услуга</th>
+                                <th>Цена (руб)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Выездной детейлинг (до 10 км от студии)</td>
+                                <td>+10–20%</td>
+                            </tr>
+                            <tr>
+                                <td>Диагностика состояния ЛКП (толщиномер)</td>
+                                <td>Бесплатно / 450 руб</td>
+                            </tr>
+                            <tr>
+                                <td>Антидождь на стёкла (передние + боковые)</td>
+                                <td>1 300 – 2 200</td>
+                            </tr>
+                            <tr>
+                                <td>Установка светодиодов в салон</td>
+                                <td>900 – 2 500</td>
+                            </tr>
+                            <tr>
+                                <td>Нанесение графита на замки дверей</td>
+                                <td>450 – 900</td>
+                            </tr>
+                            <tr>
+                                <td>Установка силиконовых заглушек на решётки</td>
+                                <td>450 – 900</td>
+                            </tr>
+                            <tr>
+                                <td>Установка подсветки в багажник</td>
+                                <td>900 – 1 800</td>
+                            </tr>
+                            <tr>
+                                <td>Установка органайзеров в двери</td>
+                                <td>900 – 1 800</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Страница контактов -->
+        <div id="contacts" class="page">
+            <h1 style="color: var(--neon-yellow); text-shadow: 0 0 10px var(--neon-yellow-glow);">Наши <span style="animation: neonGlow 1.5s ease-in-out infinite alternate;">Контакты</span></h1>
+            <p>Свяжитесь с нами для записи на детейлинг</p>
+            <div class="contact-info">
+                <div class="contact-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Адрес</h3>
+                    <p>г. Москва, ул. Автодетейлинговая, 15</p>
+                    <p>Детейлинг-центр "Neon Glow"</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-phone-alt"></i>
+                    <h3>Телефоны</h3>
+                    <a href="tel:+74951234567">+7 (495) 123-45-67</a>
+                    <a href="tel:+79161234567">+7 (916) 123-45-67</a>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Электронная почта</h3>
+                    <a href="mailto:info@neondetailing.ru">info@neondetailing.ru</a>
+                    <a href="mailto:booking@neondetailing.ru">booking@neondetailing.ru</a>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Режим работы</h3>
+                    <p>Пн-Пт: 09:00 - 21:00</p>
+                    <p>Сб-Вс: 10:00 - 20:00</p>
+                </div>
+            </div>
+            <div style="margin-top: 50px; text-align: center;">
+                <h3 style="color: var(--neon-yellow);">Мы в социальных сетях</h3>
+                <div class="social-links">
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-vk"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-telegram"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Подвал сайта -->
+<footer>
+    <div class="footer-content">
+        <p>&copy; 2025 Neon Detailing. Все права защищены.</p>
+        <p>Детейлинг-студия в Москве</p>
+    </div>
+</footer>
+
+<!-- Модальное окно -->
+<div class="modal" id="imageModal">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <span class="modal-nav modal-prev" onclick="prevImage()">&#10094;</span>
+    <img id="modalImage" src="" alt="Увеличенное изображение">
+    <span class="modal-nav modal-next" onclick="nextImage()">&#10095;</span>
+</div>
+
+<script>
+    // Переключение страниц
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Фильтрация услуг
+    function filterServices(category) {
+        document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        if (category === 'all') {
+            document.querySelectorAll('.service-category').forEach(cat => cat.classList.add('active'));
+        } else {
+            document.querySelectorAll('.service-category').forEach(cat => cat.classList.remove('active'));
+            document.getElementById(`${category}-category`).classList.add('active');
+        }
+    }
+
+    // Модальное окно
+    let currentImageIndex = 0;
+    let modalImages = [];
+
+    function openModal(src) {
+        const modalImg = document.getElementById('modalImage');
+        modalImg.src = src;
+
+        modalImages = Array.from(document.querySelectorAll('.gallery-item img')).map(img => img.src);
+        currentImageIndex = modalImages.indexOf(src);
+
+        document.getElementById('imageModal').classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('imageModal').classList.remove('active');
+        document.getElementById('modalImage').src = '';
+    }
+
+    function prevImage() {
+        if (currentImageIndex > 0) {
+            currentImageIndex--;
+            document.getElementById('modalImage').src = modalImages[currentImageIndex];
+        }
+    }
+
+    function nextImage() {
+        if (currentImageIndex < modalImages.length - 1) {
+            currentImageIndex++;
+            document.getElementById('modalImage').src = modalImages[currentImageIndex];
+        }
+    }
+
+    // Клавиатура: ← → ESC
+    document.addEventListener('keydown', function(event) {
+        const modal = document.getElementById('imageModal');
+        if (!modal.classList.contains('active')) return;
+
+        if (event.key === 'ArrowLeft') {
+            prevImage();
+        } else if (event.key === 'ArrowRight') {
+            nextImage();
+        } else if (event.key === 'Escape') {
+            closeModal();
+        }
+    });
+
+    // Назначаем обработчики клика
+    document.querySelectorAll('.gallery-item img').forEach(img => {
+        img.addEventListener('click', () => openModal(img.src));
+    });
+
+    // Анимация при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+        const elements = document.querySelectorAll('.gallery-item, .contact-card');
+        elements.forEach((el, index) => {
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, 100 * index);
+        });
+    });
+</script>
+</body>
+</html>
